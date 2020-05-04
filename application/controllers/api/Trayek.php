@@ -3,53 +3,60 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Payment_method extends RestController
+class Trayek extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('payment_method_model', 'payment_method');
+        $this->load->model('po_trayek_model', 'po_trayek');
     }
 
     public function index_get()
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $payment_method = $this->payment_method->getPayment_method();
+            $po_trayek = $this->po_trayek->getPo_trayek();
         } else {
-            $payment_method = $this->payment_method->getPayment_method($id);
+            $po_trayek = $this->po_trayek->getPo_trayek($id);
         }
 
-        if ($payment_method) {
+        if ($po_trayek) {
             $this->response([
                 'status' => true,
-                'data' => $payment_method
+                'data' => $po_trayek
             ], RestController::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Tidak Ditemukan payment_method'
+                'message' => 'Tidak Ditemukan po_trayek'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
     public function index_post()
     {
         $data = [
-            'name' => $this->post('name')
+            'id_po' => $this->post('id_po'),
+            'dari' => $this->post('dari'),
+            'tujuan' => $this->post('tujuan'),
+            'jam_berangkat' => $this->post('jam_berangkat'),
+            'jam_tiba' => $this->post('jam_tiba'),
+            'tanggal_berangkat' => $this->post('tanggal_berangkat'),
+            'tanggal_tiba' => $this->post('tanggal_tiba'),
+            'harga' => $this->post('harga')
         ];
 
-        if ($this->payment_method->createPayment_method($data) > 0) {
+        if ($this->po_trayek->createPo_trayek($data) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data payment_method Dibuat'
+                'message' => 'Data po_trayek Dibuat'
             ], RestController::HTTP_CREATED);
         } else {
             //id not found
             $this->response([
                 'status' => false,
-                'message' => 'Gagal membuat data payment_method baru'
+                'message' => 'Gagal membuat data po_trayek baru'
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -57,13 +64,20 @@ class Payment_method extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'name' => $this->put('name')
+            'id_po' => $this->put('id_po'),
+            'dari' => $this->put('dari'),
+            'tujuan' => $this->put('tujuan'),
+            'jam_berangkat' => $this->put('jam_berangkat'),
+            'jam_tiba' => $this->put('jam_tiba'),
+            'tanggal_berangkat' => $this->put('tanggal_berangkat'),
+            'tanggal_tiba' => $this->put('tanggal_tiba'),
+            'harga' => $this->put('harga')
         ];
 
-        if ($this->payment_method->updatePayment_method($data, $id) > 0) {
+        if ($this->po_trayek->updatePo_trayek($data, $id) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data payment_method has been updated'
+                'message' => 'Data po_trayek has been updated'
             ], RestController::HTTP_OK);
         } else {
             //id not found
@@ -84,7 +98,7 @@ class Payment_method extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST);
         } else {
-            if ($this->payment_method->deletePayment_method($id) > 0) {
+            if ($this->po_trayek->deletePo_trayek($id) > 0) {
                 $this->response([
                     'status' => true,
                     'id' => $id,

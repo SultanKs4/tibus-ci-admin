@@ -3,58 +3,53 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Akun extends RestController
+class Booking extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('akun_model', 'akun');
+        $this->load->model('tiket_booking_model', 'tiket_booking');
     }
 
     public function index_get()
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $akun = $this->akun->getAkun();
+            $tiket_booking = $this->tiket_booking->getTiket_booking();
         } else {
-            $akun = $this->akun->getAkun($id);
+            $tiket_booking = $this->tiket_booking->getTiket_booking($id);
         }
 
-        if ($akun) {
+        if ($tiket_booking) {
             $this->response([
                 'status' => true,
-                'data' => $akun
+                'data' => $tiket_booking
             ], RestController::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Tidak Ditemukan Akun'
+                'message' => 'Tidak Ditemukan tiket_booking'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
     public function index_post()
     {
         $data = [
-            'email' => $this->post('email'),
-            'nama_depan' => $this->post('nama_depan'),
-            'nama_belakang' => $this->post('nama_belakang'),
-            'telpon' => $this->post('telpon'),
-            'password' => $this->post('password'),
-            'id_level' => $this->post('id_level')
+            'name' => $this->post('name')
         ];
 
-        if ($this->akun->createAkun($data) > 0) {
+        if ($this->tiket_booking->createTiket_booking($data) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data Akun Dibuat'
+                'message' => 'Data tiket_booking Dibuat'
             ], RestController::HTTP_CREATED);
         } else {
             //id not found
             $this->response([
                 'status' => false,
-                'message' => 'Gagal membuat data akun baru'
+                'message' => 'Gagal membuat data tiket_booking baru'
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -62,18 +57,13 @@ class Akun extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'email' => $this->put('email'),
-            'nama_depan' => $this->put('nama_depan'),
-            'nama_belakang' => $this->put('nama_belakang'),
-            'telpon' => $this->put('telpon'),
-            'password' => $this->put('password'),
-            'id_level' => $this->put('id_level')
+            'name' => $this->put('name')
         ];
 
-        if ($this->akun->updateAkun($data, $id) > 0) {
+        if ($this->tiket_booking->updateTiket_booking($data, $id) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data Akun has been updated'
+                'message' => 'Data tiket_booking has been updated'
             ], RestController::HTTP_OK);
         } else {
             //id not found
@@ -94,7 +84,7 @@ class Akun extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST);
         } else {
-            if ($this->akun->deleteAkun($id) > 0) {
+            if ($this->tiket_booking->deleteTiket_booking($id) > 0) {
                 $this->response([
                     'status' => true,
                     'id' => $id,
