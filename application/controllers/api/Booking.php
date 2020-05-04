@@ -3,53 +3,53 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Po extends RestController
+class Booking extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('po_model', 'po');
+        $this->load->model('tiket_booking_model', 'tiket_booking');
     }
 
     public function index_get()
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $po = $this->po->getPo();
+            $tiket_booking = $this->tiket_booking->getTiket_booking();
         } else {
-            $po = $this->po->getPo($id);
+            $tiket_booking = $this->tiket_booking->getTiket_booking($id);
         }
 
-        if ($po) {
+        if ($tiket_booking) {
             $this->response([
                 'status' => true,
-                'data' => $po
+                'data' => $tiket_booking
             ], RestController::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Tidak Ditemukan po'
+                'message' => 'Tidak Ditemukan tiket_booking'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
     public function index_post()
     {
         $data = [
-            'nama' => $this->post('nama')
+            'name' => $this->post('name')
         ];
 
-        if ($this->po->createPo($data) > 0) {
+        if ($this->tiket_booking->createTiket_booking($data) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data po Dibuat'
+                'message' => 'Data tiket_booking Dibuat'
             ], RestController::HTTP_CREATED);
         } else {
             //id not found
             $this->response([
                 'status' => false,
-                'message' => 'Gagal membuat data po baru'
+                'message' => 'Gagal membuat data tiket_booking baru'
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -57,13 +57,13 @@ class Po extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'nama' => $this->put('nama')
+            'name' => $this->put('name')
         ];
 
-        if ($this->po->updatePo($data, $id) > 0) {
+        if ($this->tiket_booking->updateTiket_booking($data, $id) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data po has been updated'
+                'message' => 'Data tiket_booking has been updated'
             ], RestController::HTTP_OK);
         } else {
             //id not found
@@ -84,7 +84,7 @@ class Po extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST);
         } else {
-            if ($this->po->deletePo($id) > 0) {
+            if ($this->tiket_booking->deleteTiket_booking($id) > 0) {
                 $this->response([
                     'status' => true,
                     'id' => $id,

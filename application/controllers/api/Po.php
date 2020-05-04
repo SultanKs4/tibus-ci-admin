@@ -3,53 +3,53 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Payment_Status extends RestController
+class Po extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('payment_status_model', 'payment_status');
+        $this->load->model('po_model', 'po');
     }
 
     public function index_get()
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $payment_status = $this->payment_status->getPayment_status();
+            $po = $this->po->getPo();
         } else {
-            $payment_status = $this->payment_status->getPayment_status($id);
+            $po = $this->po->getPo($id);
         }
 
-        if ($payment_status) {
+        if ($po) {
             $this->response([
                 'status' => true,
-                'data' => $payment_status
+                'data' => $po
             ], RestController::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Tidak Ditemukan payment_status'
+                'message' => 'Tidak Ditemukan po'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
     public function index_post()
     {
         $data = [
-            'name' => $this->post('name')
+            'nama' => $this->post('nama')
         ];
 
-        if ($this->payment_status->createPayment_status($data) > 0) {
+        if ($this->po->createPo($data) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data payment_status Dibuat'
+                'message' => 'Data po Dibuat'
             ], RestController::HTTP_CREATED);
         } else {
             //id not found
             $this->response([
                 'status' => false,
-                'message' => 'Gagal membuat data payment_status baru'
+                'message' => 'Gagal membuat data po baru'
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -57,13 +57,13 @@ class Payment_Status extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'name' => $this->put('name')
+            'nama' => $this->put('nama')
         ];
 
-        if ($this->payment_status->updatePayment_status($data, $id) > 0) {
+        if ($this->po->updatePo($data, $id) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data payment_status has been updated'
+                'message' => 'Data po has been updated'
             ], RestController::HTTP_OK);
         } else {
             //id not found
@@ -84,7 +84,7 @@ class Payment_Status extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST);
         } else {
-            if ($this->payment_status->deletePayment_status($id) > 0) {
+            if ($this->po->deletePo($id) > 0) {
                 $this->response([
                     'status' => true,
                     'id' => $id,

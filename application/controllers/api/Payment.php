@@ -3,60 +3,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Po_trayek extends RestController
+class Payment extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('po_trayek_model', 'po_trayek');
+        $this->load->model('payment_model', 'payment');
     }
 
     public function index_get()
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $po_trayek = $this->po_trayek->getPo_trayek();
+            $payment = $this->payment->getPayment();
         } else {
-            $po_trayek = $this->po_trayek->getPo_trayek($id);
+            $payment = $this->payment->getPayment($id);
         }
 
-        if ($po_trayek) {
+        if ($payment) {
             $this->response([
                 'status' => true,
-                'data' => $po_trayek
+                'data' => $payment
             ], RestController::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Tidak Ditemukan po_trayek'
+                'message' => 'Tidak Ditemukan payment'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
     public function index_post()
     {
         $data = [
-            'id_po' => $this->post('id_po'),
-            'dari' => $this->post('dari'),
-            'tujuan' => $this->post('tujuan'),
-            'jam_berangkat' => $this->post('jam_berangkat'),
-            'jam_tiba' => $this->post('jam_tiba'),
-            'tanggal_berangkat' => $this->post('tanggal_berangkat'),
-            'tanggal_tiba' => $this->post('tanggal_tiba'),
-            'harga' => $this->post('harga')
+            'id_akun' => $this->post('id_akun'),
+            'kode_booking' => $this->post('kode_booking'),
+            'total' => $this->post('total'),
+            'metode_bayar' => $this->post('metode_bayar'),
+            // 'bukti_bayar' => $this->post('bukti_bayar'),
+            'status' => $this->post('status')
         ];
 
-        if ($this->po_trayek->createPo_trayek($data) > 0) {
+        if ($this->payment->createPayment($data) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data po_trayek Dibuat'
+                'message' => 'Data payment Dibuat'
             ], RestController::HTTP_CREATED);
         } else {
             //id not found
             $this->response([
                 'status' => false,
-                'message' => 'Gagal membuat data po_trayek baru'
+                'message' => 'Gagal membuat data payment baru'
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -64,20 +62,18 @@ class Po_trayek extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'id_po' => $this->put('id_po'),
-            'dari' => $this->put('dari'),
-            'tujuan' => $this->put('tujuan'),
-            'jam_berangkat' => $this->put('jam_berangkat'),
-            'jam_tiba' => $this->put('jam_tiba'),
-            'tanggal_berangkat' => $this->put('tanggal_berangkat'),
-            'tanggal_tiba' => $this->put('tanggal_tiba'),
-            'harga' => $this->put('harga')
+            'id_akun' => $this->put('id_akun'),
+            'kode_booking' => $this->put('kode_booking'),
+            'total' => $this->put('total'),
+            'metode_bayar' => $this->put('metode_bayar'),
+            'bukti_bayar' => $this->put('bukti_bayar'),
+            'status' => $this->put('status')
         ];
 
-        if ($this->po_trayek->updatePo_trayek($data, $id) > 0) {
+        if ($this->payment->updatePayment($data, $id) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data po_trayek has been updated'
+                'message' => 'Data payment has been updated'
             ], RestController::HTTP_OK);
         } else {
             //id not found
@@ -98,7 +94,7 @@ class Po_trayek extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST);
         } else {
-            if ($this->po_trayek->deletePo_trayek($id) > 0) {
+            if ($this->payment->deletePayment($id) > 0) {
                 $this->response([
                     'status' => true,
                     'id' => $id,

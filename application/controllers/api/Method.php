@@ -3,34 +3,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Tiket_booking extends RestController
+class Method extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('tiket_booking_model', 'tiket_booking');
+        $this->load->model('payment_method_model', 'payment_method');
     }
 
     public function index_get()
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $tiket_booking = $this->tiket_booking->getTiket_booking();
+            $payment_method = $this->payment_method->getPayment_method();
         } else {
-            $tiket_booking = $this->tiket_booking->getTiket_booking($id);
+            $payment_method = $this->payment_method->getPayment_method($id);
         }
 
-        if ($tiket_booking) {
+        if ($payment_method) {
             $this->response([
                 'status' => true,
-                'data' => $tiket_booking
+                'data' => $payment_method
             ], RestController::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'message' => 'Tidak Ditemukan tiket_booking'
+                'message' => 'Tidak Ditemukan payment_method'
             ], RestController::HTTP_NOT_FOUND);
         }
     }
@@ -40,16 +40,16 @@ class Tiket_booking extends RestController
             'name' => $this->post('name')
         ];
 
-        if ($this->tiket_booking->createTiket_booking($data) > 0) {
+        if ($this->payment_method->createPayment_method($data) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data tiket_booking Dibuat'
+                'message' => 'Data payment_method Dibuat'
             ], RestController::HTTP_CREATED);
         } else {
             //id not found
             $this->response([
                 'status' => false,
-                'message' => 'Gagal membuat data tiket_booking baru'
+                'message' => 'Gagal membuat data payment_method baru'
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -60,10 +60,10 @@ class Tiket_booking extends RestController
             'name' => $this->put('name')
         ];
 
-        if ($this->tiket_booking->updateTiket_booking($data, $id) > 0) {
+        if ($this->payment_method->updatePayment_method($data, $id) > 0) {
             $this->response([
                 'status' => true,
-                'message' => 'Data tiket_booking has been updated'
+                'message' => 'Data payment_method has been updated'
             ], RestController::HTTP_OK);
         } else {
             //id not found
@@ -84,7 +84,7 @@ class Tiket_booking extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST);
         } else {
-            if ($this->tiket_booking->deleteTiket_booking($id) > 0) {
+            if ($this->payment_method->deletePayment_method($id) > 0) {
                 $this->response([
                     'status' => true,
                     'id' => $id,

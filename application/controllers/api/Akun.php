@@ -34,6 +34,27 @@ class Akun extends RestController
             ], RestController::HTTP_NOT_FOUND);
         }
     }
+
+    public function check_post()
+    {
+        $email = $this->post('email');
+        $password = hash('sha512', $this->post('password'));
+
+        $data = $this->akun->checkLogin($email, $password);
+        if ($data != false) {
+            $this->response([
+                'status' => true,
+                'message' => 'Username dan password benar',
+                'data' => $data
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Username dan Password salah',
+            ], RestController::HTTP_FORBIDDEN);
+        }
+    }
+
     public function index_post()
     {
         $data = [
@@ -41,7 +62,7 @@ class Akun extends RestController
             'nama_depan' => $this->post('nama_depan'),
             'nama_belakang' => $this->post('nama_belakang'),
             'telpon' => $this->post('telpon'),
-            'password' => $this->post('password'),
+            'password' => hash('sha512', $this->post('password')),
             'id_level' => $this->post('id_level')
         ];
 
@@ -58,6 +79,7 @@ class Akun extends RestController
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
+
     public function index_put()
     {
         $id = $this->put('id');
@@ -66,7 +88,7 @@ class Akun extends RestController
             'nama_depan' => $this->put('nama_depan'),
             'nama_belakang' => $this->put('nama_belakang'),
             'telpon' => $this->put('telpon'),
-            'password' => $this->put('password'),
+            'password' => hash('sha512', $this->post('password')),
             'id_level' => $this->put('id_level')
         ];
 
