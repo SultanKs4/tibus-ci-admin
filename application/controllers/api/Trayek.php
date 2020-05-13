@@ -13,6 +13,26 @@ class Trayek extends RestController
         $this->load->model('po_trayek_model', 'po_trayek');
     }
 
+    public function search_get()
+    {
+        $asal = $this->get('dari');
+        $tujuan = $this->get('tujuan');
+        $tanggal = $this->get('tanggal');
+        $po_trayek = $this->po_trayek->searchTrayek($asal, $tujuan, $tanggal);
+
+        if ($po_trayek) {
+            $this->response([
+                'status' => true,
+                'data' => $po_trayek
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Tidak Ditemukan po_trayek'
+            ], RestController::HTTP_NOT_FOUND);
+        }
+    }
+
     public function index_get()
     {
         $id = $this->get('id');
