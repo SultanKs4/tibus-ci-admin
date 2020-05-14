@@ -37,7 +37,9 @@ class Method extends RestController
     public function index_post()
     {
         $data = [
-            'name' => $this->post('name')
+            'name' => $this->post('name'),
+            'no' => $this->post('no'),
+            'an' => $this->post('an')
         ];
 
         if ($this->payment_method->createPayment_method($data) > 0) {
@@ -57,7 +59,9 @@ class Method extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'name' => $this->put('name')
+            'name' => $this->put('name'),
+            'no' => $this->put('no'),
+            'an' => $this->put('an')
         ];
 
         if ($this->payment_method->updatePayment_method($data, $id) > 0) {
