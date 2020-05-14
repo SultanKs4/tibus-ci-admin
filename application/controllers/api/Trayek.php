@@ -64,7 +64,8 @@ class Trayek extends RestController
             'jam_tiba' => $this->post('jam_tiba'),
             'tanggal_berangkat' => $this->post('tanggal_berangkat'),
             'tanggal_tiba' => $this->post('tanggal_tiba'),
-            'harga' => $this->post('harga')
+            'harga' => $this->post('harga'),
+            'sisa_kursi' => $this->post('sisa_kursi')
         ];
 
         if ($this->po_trayek->createPo_trayek($data) > 0) {
@@ -91,7 +92,8 @@ class Trayek extends RestController
             'jam_tiba' => $this->put('jam_tiba'),
             'tanggal_berangkat' => $this->put('tanggal_berangkat'),
             'tanggal_tiba' => $this->put('tanggal_tiba'),
-            'harga' => $this->put('harga')
+            'harga' => $this->put('harga'),
+            'sisa_kursi' => $this->post('sisa_kursi')
         ];
 
         if ($this->po_trayek->updatePo_trayek($data, $id) > 0) {
