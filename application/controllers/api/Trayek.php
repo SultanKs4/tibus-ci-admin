@@ -93,7 +93,7 @@ class Trayek extends RestController
             'tanggal_berangkat' => $this->put('tanggal_berangkat'),
             'tanggal_tiba' => $this->put('tanggal_tiba'),
             'harga' => $this->put('harga'),
-            'sisa_kursi' => $this->post('sisa_kursi')
+            'sisa_kursi' => $this->put('sisa_kursi')
         ];
 
         if ($this->po_trayek->updatePo_trayek($data, $id) > 0) {
