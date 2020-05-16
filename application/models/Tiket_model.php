@@ -7,9 +7,8 @@ class tiket_model extends CI_Model
 
     public function getTiket($id = null)
     {
-        $this->db->select('tiket.id, tiket_booking.name, tiket.nama_penumpang, tiket.no_ktp_penumpang, tiket.no_duduk, akun.email, tiket.id_trayek');
+        $this->db->select('tiket.id, tiket.nama_penumpang, tiket.no_ktp_penumpang, tiket.no_duduk, akun.email, tiket.id_trayek, id_duduk');
         $this->db->from('tiket');
-        $this->db->join('tiket_booking', 'tiket.kode_booking = tiket_booking.id');
         $this->db->join('akun', 'tiket.id_akun = akun.id');
 
         if ($id === null) {
@@ -36,6 +35,14 @@ class tiket_model extends CI_Model
     {
         $this->db->delete('tiket', ['id' => $id]);
         return $this->db->affected_rows();
+    }
+
+    public function getidduduk($id_trayek)
+    {
+        $this->db->select('id_duduk');
+        $this->db->from('tiket');
+        $this->db->where('id_trayek', $id_trayek);
+        return $this->db->get()->result_array();
     }
 }
     

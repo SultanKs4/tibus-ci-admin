@@ -37,12 +37,12 @@ class Tiket extends RestController
     public function index_post()
     {
         $data = [
-            'kode_booking' => $this->post('kode_booking'),
             'nama_penumpang' => $this->post('nama_penumpang'),
             'no_ktp_penumpang' => $this->post('no_ktp_penumpang'),
             'no_duduk' => $this->post('no_duduk'),
             'id_akun' => $this->post('id_akun'),
-            'id_trayek' => $this->post('id_trayek')
+            'id_trayek' => $this->post('id_trayek'),
+            'id_duduk' => $this->post('id_duduk')
         ];
 
         if ($this->tiket->createTiket($data) > 0) {
@@ -62,12 +62,12 @@ class Tiket extends RestController
     {
         $id = $this->put('id');
         $data = [
-            'kode_booking' => $this->put('kode_booking'),
             'nama_penumpang' => $this->put('nama_penumpang'),
             'no_ktp_penumpang' => $this->put('no_ktp_penumpang'),
             'no_duduk' => $this->put('no_duduk'),
             'id_akun' => $this->put('id_akun'),
-            'id_trayek' => $this->put('id_trayek')
+            'id_trayek' => $this->put('id_trayek'),
+            'id_duduk' => $this->put('id_duduk')
         ];
 
         if ($this->tiket->updateTiket($data, $id) > 0) {
@@ -106,6 +106,23 @@ class Tiket extends RestController
                     'message' => 'ID not found!'
                 ], RestController::HTTP_BAD_REQUEST);
             }
+        }
+    }
+    public function booked_get()
+    {
+        $id_trayek = $this->get('id_trayek');
+        $tiket = $this->tiket->getidduduk($id_trayek);
+
+        if ($tiket) {
+            $this->response([
+                'status' => true,
+                'data' => $tiket
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Tidak Ditemukan tiket'
+            ], RestController::HTTP_NOT_FOUND);
         }
     }
 }
