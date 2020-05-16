@@ -7,7 +7,7 @@ class payment_model extends CI_Model
 
     public function getPayment($id = null)
     {
-        $this->db->select('payment.id, payment.id_tiket, akun.email as akun, payment.total, payment_method.name as method, payment.bukti_bayar, payment_status.name as status');
+        $this->db->select('payment.id, akun.email as akun, payment.total, payment_method.name as method, payment.bukti_bayar, payment_status.name as status');
         $this->db->from('payment');
         $this->db->join('akun', 'payment.id_akun = akun.id');
         $this->db->join('payment_method', 'payment.metode_bayar = payment_method.id');
