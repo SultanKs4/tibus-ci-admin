@@ -42,6 +42,7 @@ class Tiket extends RestController
             'no_duduk' => $this->post('no_duduk'),
             'id_akun' => $this->post('id_akun'),
             'id_trayek' => $this->post('id_trayek'),
+            'id_payment' => $this->post('id_payment'),
             'id_duduk' => $this->post('id_duduk')
         ];
 
@@ -67,6 +68,7 @@ class Tiket extends RestController
             'no_duduk' => $this->put('no_duduk'),
             'id_akun' => $this->put('id_akun'),
             'id_trayek' => $this->put('id_trayek'),
+            'id_payment' => $this->put('id_payment'),
             'id_duduk' => $this->put('id_duduk')
         ];
 

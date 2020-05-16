@@ -7,7 +7,7 @@ class tiket_model extends CI_Model
 
     public function getTiket($id = null)
     {
-        $this->db->select('tiket.id, tiket.nama_penumpang, tiket.no_ktp_penumpang, tiket.no_duduk, akun.email, tiket.id_trayek, id_duduk');
+        $this->db->select('tiket.id, tiket.nama_penumpang, tiket.no_ktp_penumpang, tiket.no_duduk, akun.email, tiket.id_trayek, tiket.id_duduk, tiket.id_payment');
         $this->db->from('tiket');
         $this->db->join('akun', 'tiket.id_akun = akun.id');
 

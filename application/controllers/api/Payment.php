@@ -38,7 +38,6 @@ class Payment extends RestController
     {
         $data = [
             'id_akun' => $this->post('id_akun'),
-            'id_tiket' => $this->post('id_tiket'),
             'total' => $this->post('total'),
             'metode_bayar' => $this->post('metode_bayar'),
             // 'bukti_bayar' => $this->post('bukti_bayar'),
@@ -63,7 +62,6 @@ class Payment extends RestController
         $id = $this->put('id');
         $data = [
             'id_akun' => $this->put('id_akun'),
-            'id_tiket' => $this->put('id_tiket'),
             'total' => $this->put('total'),
             'metode_bayar' => $this->put('metode_bayar'),
             'bukti_bayar' => $this->put('bukti_bayar'),
