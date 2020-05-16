@@ -88,7 +88,7 @@ class Akun extends RestController
             'nama_depan' => $this->put('nama_depan'),
             'nama_belakang' => $this->put('nama_belakang'),
             'telpon' => $this->put('telpon'),
-            'password' => hash('sha512', $this->post('password')),
+            'password' => hash('sha512', $this->put('password')),
             'id_level' => $this->put('id_level')
         ];
 
