@@ -94,7 +94,7 @@ class Tiket extends RestController
             'id_akun' => $this->post('id_akun'),
             'total' => $this->post('total'),
             'metode_bayar' => $this->post('metode_bayar'),
-            'status' => "1"
+            'status' => $this->post('status'),
         ];
 
         $dataTiket = [
@@ -106,7 +106,20 @@ class Tiket extends RestController
             'id_duduk' => $this->post('id_duduk')
         ];
 
-        if ($this->tiket->transactionTiket($dataPayment, $dataTiket) > 0) {
+        $idTrayek = $this->post('id_trayek');
+        $dataTrayek = [
+            'id_po' => $this->post('id_po'),
+            'dari' => $this->post('dari'),
+            'tujuan' => $this->post('tujuan'),
+            'jam_berangkat' => $this->post('jam_berangkat'),
+            'jam_tiba' => $this->post('jam_tiba'),
+            'tanggal_berangkat' => $this->post('tanggal_berangkat'),
+            'tanggal_tiba' => $this->post('tanggal_tiba'),
+            'harga' => $this->post('harga'),
+            'sisa_kursi' => $this->post('sisa_kursi')
+        ];
+
+        if ($this->tiket->transactionTiket($dataPayment, $dataTiket, $dataTrayek, $idTrayek) > 0) {
             $this->response([
                 'status' => true,
                 'message' => 'Data tiket Dibuat'

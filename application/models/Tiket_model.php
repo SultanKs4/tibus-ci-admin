@@ -19,12 +19,13 @@ class tiket_model extends CI_Model
         }
     }
 
-    public function transactionTiket($dataPayment, $dataTicket)
+    public function transactionTiket($dataPayment, $dataTicket, $dataTrayek, $idTrayek)
     {
         $this->db->trans_begin();
         $this->db->insert('payment', $dataPayment);
         $dataTicket['id_payment'] = $this->db->insert_id();
         $this->db->insert('tiket', $dataTicket);
+        $this->db->update('po_trayek', $dataTrayek, ['id' => $idTrayek]);
         $this->db->trans_complete();
         if ($this->db->trans_status() == FALSE) {
             $this->db->trans_rollback();
