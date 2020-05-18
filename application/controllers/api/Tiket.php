@@ -86,6 +86,40 @@ class Tiket extends RestController
         }
     }
 
+    public function trans_post()
+    {
+        $this->load->model('payment_model');
+
+        $dataPayment = [
+            'id_akun' => $this->post('id_akun'),
+            'total' => $this->post('total'),
+            'metode_bayar' => $this->post('metode_bayar'),
+            'status' => "1"
+        ];
+
+        $dataTiket = [
+            'nama_penumpang' => $this->post('nama_penumpang'),
+            'no_ktp_penumpang' => $this->post('no_ktp_penumpang'),
+            'no_duduk' => $this->post('no_duduk'),
+            'id_akun' => $this->post('id_akun'),
+            'id_trayek' => $this->post('id_trayek'),
+            'id_duduk' => $this->post('id_duduk')
+        ];
+
+        if ($this->tiket->transactionTiket($dataPayment, $dataTiket) > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Data tiket Dibuat'
+            ], RestController::HTTP_CREATED);
+        } else {
+            //id not found
+            $this->response([
+                'status' => false,
+                'message' => 'Gagal membuat data tiket baru'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+    }
+
     public function index_delete()
     {
         $id = $this->delete('id');
