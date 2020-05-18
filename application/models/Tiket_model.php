@@ -19,6 +19,22 @@ class tiket_model extends CI_Model
         }
     }
 
+    public function transactionTiket($dataPayment, $dataTicket)
+    {
+        $this->db->trans_begin();
+        $this->db->insert('payment', $dataPayment);
+        $dataTicket['id_payment'] = $this->db->insert_id();
+        $this->db->insert('tiket', $dataTicket);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() == FALSE) {
+            $this->db->trans_rollback();
+            return 0;
+        } else {
+            $this->db->trans_commit();
+            return 1;
+        }
+    }
+
     public function createTiket($data)
     {
         $this->db->insert('tiket', $data);
